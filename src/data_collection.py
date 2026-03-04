@@ -289,7 +289,11 @@ if __name__ == "__main__":
     df = collect_routes(client, routes, dates, stops=args.stops, delay=args.delay, store=True)
     print(f"\nTotal records collected: {len(df)}")
     if not df.empty:
-        csv_path = "data/collected_flights.csv"
-        df.to_csv(csv_path, index=False)
-        print(f"Saved CSV → {csv_path}")
+        csv_path = Path("data/collected_flights.csv")
+        if csv_path.exists():
+            df.to_csv(csv_path, mode="a", header=False, index=False)
+            print(f"Appended to {csv_path}")
+        else:
+            df.to_csv(csv_path, index=False)
+            print(f"Created {csv_path}")
         print(df.head(10).to_string(index=False))
