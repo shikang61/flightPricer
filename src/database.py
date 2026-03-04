@@ -97,6 +97,7 @@ def insert_raw_flights(df: pd.DataFrame, db_path: Path = DB_PATH) -> int:
     """Append a DataFrame of raw flights. Returns number of rows inserted."""
     engine = get_engine(db_path)
     init_db(db_path)
+    df = df.drop(columns=["id"], errors="ignore")  # let SQLite auto-generate IDs
     rows = df.to_dict(orient="records")
     with Session(engine) as session:
         session.execute(RawFlight.__table__.insert(), rows)
@@ -107,6 +108,7 @@ def insert_raw_flights(df: pd.DataFrame, db_path: Path = DB_PATH) -> int:
 def insert_cleaned_flights(df: pd.DataFrame, db_path: Path = DB_PATH) -> int:
     engine = get_engine(db_path)
     init_db(db_path)
+    df = df.drop(columns=["id"], errors="ignore")  # let SQLite auto-generate IDs
     rows = df.to_dict(orient="records")
     with Session(engine) as session:
         session.execute(CleanedFlight.__table__.insert(), rows)

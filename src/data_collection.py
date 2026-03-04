@@ -16,7 +16,7 @@ from __future__ import annotations
 import os
 import time
 import logging
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from itertools import product
 from pathlib import Path
 
@@ -114,7 +114,7 @@ class GoogleFlightsClient:
         outbound_date: str,
     ) -> pd.DataFrame:
         rows: list[dict] = []
-        search_date = datetime.utcnow().strftime("%Y-%m-%d")
+        search_date = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d")
 
         all_flights = payload.get("best_flights", []) + payload.get("other_flights", [])
 
