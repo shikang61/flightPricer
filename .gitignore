@@ -2,5 +2,4 @@
 __pycache__/
 *.pyc
 .venv/
-data/flights.db
-models/*.joblib
+.streamlit/secrets.toml
